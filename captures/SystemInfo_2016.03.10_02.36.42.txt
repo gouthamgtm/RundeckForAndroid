@@ -1,0 +1,87 @@
+Applications Graphics Acceleration Info:
+Uptime: 1137612 Realtime: 1137612
+
+** Graphics info for pid 16140 [com.example.goutham.myfirstapp] **
+
+Recent DisplayList operations
+  DrawDisplayList
+  DrawPatch
+DrawRect
+DrawPatch
+SetupShader
+DrawRect
+ResetShader
+DrawDisplayList
+  DrawDisplayList
+    DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+        DrawPatch
+        Save
+        ClipRect
+        Translate
+        DrawPatch
+        DrawDisplayList
+          DrawText
+        RestoreToCount
+      DrawDisplayList
+  DrawDisplayList
+  DrawPatch
+DrawRect
+DrawPatch
+DrawPatch
+SetupShader
+DrawRect
+ResetShader
+DrawDisplayList
+  DrawDisplayList
+    DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+      DrawDisplayList
+        DrawPatch
+        Save
+        ClipRect
+        Translate
+        DrawDisplayList
+          DrawText
+        RestoreToCount
+      DrawDisplayList
+  DrawDisplayList
+  DrawPatch
+DrawRect
+DrawPatch
+
+Caches:
+Current memory usage / total memory usage (bytes):
+  TextureCache           302320 / 25165824
+  LayerCache                  0 / 16777216
+  RenderBufferCache           0 /  2097152
+  GradientCache               0 /   524288
+  PathCache                   0 / 10485760
+  TextDropShadowCache         0 /  2097152
+  PatchCache               2496 /   131072
+  FontRenderer 0 A8      524288 /   524288
+  FontRenderer 0 RGBA         0 /        0
+  FontRenderer 0 total   524288 /   524288
+Other:
+  FboCache                    0 /       16
+Total memory usage:
+  829104 bytes, 0.79 MB
+
+Profile data in ms:
+
+	com.example.goutham.myfirstapp/com.example.goutham.myfirstapp.HomePage/android.view.ViewRootImpl@b2f69b18
+View hierarchy:
+
+  com.example.goutham.myfirstapp/com.example.goutham.myfirstapp.HomePage/android.view.ViewRootImpl@b2f69b18
+  23 views, 2.10 kB of display lists, 73 frames rendered
+
+
+Total ViewRootImpl: 1
+Total Views:        23
+Total DisplayList:  2.10 kB
+
