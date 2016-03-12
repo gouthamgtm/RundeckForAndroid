@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,7 @@ public class HomePage extends Activity {
 
     EditText passwordText, userNameText, URLText;
     ProgressBar progressBar;
-    String message = "Android : ";
+    //String message = "Android : ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class HomePage extends Activity {
         userNameText = (EditText) findViewById(R.id.RundeckUserName);
         passwordText = (EditText) findViewById(R.id.RundeckPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.INVISIBLE);
 
     }
 
@@ -63,11 +62,31 @@ public class HomePage extends Activity {
         String userName = userNameText.getText().toString();
         String password = passwordText.getText().toString();
 
-        //Log.v(message, "UserName :" + userName);
-        //Log.v(message, "Password :" + password);
-
-        System.out.println("username :" + userName + " Password :" + password);
+        //System.out.println("username :" + userName + " Password :" + password);
         new ExecuteTask().execute(userName, password);
+    }
+
+    public String postData(String[] values) {
+        progressBar.setVisibility(View.VISIBLE);
+        String response;
+        String url = URLText.getText().toString();
+
+        //System.out.println("Inside PostData" + values);
+        try {
+
+            RundeckClient client = RunDeckClientUtil.getClient(url, values[0], values[1]);
+            //client.testAuth();
+
+            response = "Success";
+
+        } catch (Exception exception) {
+            //System.out.println(exception);
+            //Log.v(message, exception.toString());
+
+
+            response = exception.toString();
+        }
+        return response;
     }
 
     class ExecuteTask extends AsyncTask<String, Integer, String> {
@@ -96,28 +115,5 @@ public class HomePage extends Activity {
         }
 
 
-    }
-
-
-    public String postData(String[] values) {
-        progressBar.setVisibility(View.VISIBLE);
-        String response;
-        String url = URLText.getText().toString();
-
-        System.out.println("Inside PostData" + values);
-        try {
-
-            RundeckClient client = RunDeckClientUtil.getClient(url, values[0], values[1]);
-            client.testAuth();
-
-            System.out.println("Project List " + RunDeckClientUtil.getClient().getProjects().get(0).getName());
-            System.out.println("Project List " + RunDeckClientUtil.getClient().getProjects().size());
-            response = "Success";
-        } catch (Exception exception) {
-            System.out.println(exception);
-            Log.v(message, exception.toString());
-            response = exception.toString();
-        }
-        return response;
     }
 }

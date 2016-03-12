@@ -1,67 +1,72 @@
 <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ConfigurationLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="255dp"
         android:layout_height="61dp"
-        android:id="@+id/imageView"
         android:layout_gravity="center"
-        android:src="@drawable/rundeck"
-        android:layout_margin="30dp" />
+        android:layout_margin="30dp"
+        android:src="@drawable/rundeck" />
 
     <EditText
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
         android:id="@+id/RundeckURL"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:visibility="visible"
-        android:hint="Rundeck URL" />
-
-    <EditText
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:autoLink="phone|web"
+        android:autoText="true"
+        android:hint="Rundeck URL"
+        android:text="http://"
+        android:visibility="visible" />
+
+    <EditText
         android:id="@+id/RundeckUserName"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:hint="User Name" />
-
-    <EditText
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/RundeckPassword"
         android:layout_gravity="center"
-        android:contentDescription="Password"
-        android:textIsSelectable="false"
-        android:password="true"
         android:layout_margin="10dp"
-        android:hint="Password" />
+        android:autoText="true"
+        android:ems="10"
+        android:hint="User Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/RundeckPassword"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:autoText="true"
+        android:contentDescription="Password"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:password="true"
+        android:textIsSelectable="false" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/button"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:onClick="login"/>
+        android:onClick="login"
+        android:text="Login"/>
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:layout_gravity="center"
-        android:layout_weight="0.21"
         android:layout_marginTop="10dp"
+        android:layout_weight="0.21"
         android:accessibilityLiveRegion="polite"
         android:animationResolution="@android:integer/config_mediumAnimTime"
         android:progress="@android:integer/config_mediumAnimTime"></ProgressBar>

@@ -8,22 +8,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import org.rundeck.api.domain.RundeckJob;
 import org.rundeck.api.domain.RundeckProject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ProjectView extends Activity {
 
+    public final static String PROJECT_NAME = "com.example.goutham.PROJECT_NAME";
+    public final static String JOB_NAME = "com.example.goutham.JOB_NAME";
+    public final static String JOB_KEY = "com.example.goutham.JOB_KEY";
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader,listProjects,listJobsNames,listJobId;
     HashMap<String, List<String>> listDataChild,listJobs;
     HashMap<String, String> listJobNameID;
-    //public final static String PROJECT_KEY = "com.example.goutham.PROJECT_KEY";
-    public final static String JOB_KEY = "com.example.goutham.JOB_KEY";
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,61 +37,16 @@ public class ProjectView extends Activity {
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar3);
 
         // preparing list data
-            getData();
+        progressBar.setVisibility(View.VISIBLE);
+        getData();
     }
 
     public void getData() {
         RetrieveProjectDetails objRPD = new RetrieveProjectDetails();
         objRPD.execute("success");
-    }
-
-    class RetrieveProjectDetails extends AsyncTask<String, Void,String> {
-
-        protected String doInBackground(String... params) {
-
-            listProjects = new ArrayList<String>();
-            //listJobsNames = new ArrayList<String>();
-            listJobs = new HashMap<String, List<String>>();
-            listJobNameID =  new HashMap<String, String>();
-
-            List<RundeckProject> project = RunDeckClientUtil.getClient().getProjects();
-
-
-            for (int i = 0; i < (project.size()); i++) {
-                System.out.println("Project List " + project.get(i).getName());
-                listProjects.add(project.get(i).getName());
-            }
-
-            for (int i = 0; i < (listProjects.size()); i++) {
-                String projectJob=listProjects.get(i);
-                System.out.println("Job List" + RunDeckClientUtil.getClient().getJobs(listProjects.get(i)).get(i).getName());
-                List<RundeckJob> jobs = RunDeckClientUtil.getClient().getJobs(project.get(i).getName());
-                listJobsNames = new ArrayList<String>();
-                listJobId = new ArrayList<String>();
-
-                for (int j = 0;j<jobs.size();j++){
-                    String jobName=jobs.get(j).getName();
-                    listJobsNames.add(jobs.get(j).getName());
-                   // listJobId.add(jobs.get(j).getId());
-                    listJobNameID.put(projectJob+jobName, jobs.get(j).getId());
-                }
-
-                //listJobs.put(listProjects.get(i), listJobsNames);
-
-                listJobs.put(listProjects.get(i),listJobsNames);
-            }
-
-            return "SUCCESS";
-        }
-
-        @Override
-        protected void onPostExecute(String dummy) {
-            prepareListData();
-            System.out.println("inside postExecute" + listProjects.toString());
-            createView();
-        }
     }
 
     public void createView(){
@@ -150,8 +111,11 @@ public class ProjectView extends Activity {
                     System.out.println("Job Id value " + jobId);
                 }
                 Intent projectIntent = new Intent(getApplicationContext(), Executor.class);
-                //projectIntent.putExtra(PROJECT_KEY, projectName);
+
+                projectIntent.putExtra(PROJECT_NAME, projectName);
+                projectIntent.putExtra(JOB_NAME, jobName);
                 projectIntent.putExtra(JOB_KEY, jobId);
+
                 System.out.println("outside loop Job Id value " + jobId);
                 startActivity(projectIntent);
                 //System.out.println("On Click" + RunDeckClientUtil.getClient().getJobs(listProjects.get(groupPosition)).get(childPosition).getName().toString());
@@ -162,6 +126,7 @@ public class ProjectView extends Activity {
         });
 
     }
+
     public void prepareListData() {
 
         listDataHeader = new ArrayList<String>();
@@ -193,5 +158,53 @@ public class ProjectView extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class RetrieveProjectDetails extends AsyncTask<String, Void,String> {
+
+        protected String doInBackground(String... params) {
+
+            listProjects = new ArrayList<String>();
+            //listJobsNames = new ArrayList<String>();
+            listJobs = new HashMap<String, List<String>>();
+            listJobNameID =  new HashMap<String, String>();
+
+            List<RundeckProject> project = RunDeckClientUtil.getClient().getProjects();
+
+
+            for (int i = 0; i < (project.size()); i++) {
+                System.out.println("Project List " + project.get(i).getName());
+                listProjects.add(project.get(i).getName());
+            }
+
+            for (int i = 0; i < (listProjects.size()); i++) {
+                String projectJob=listProjects.get(i);
+                //System.out.println("Job List" + RunDeckClientUtil.getClient().getJobs(listProjects.get(i)).get(i).getName());
+                List<RundeckJob> jobs = RunDeckClientUtil.getClient().getJobs(project.get(i).getName());
+                listJobsNames = new ArrayList<String>();
+                listJobId = new ArrayList<String>();
+
+                for (int j = 0;j<jobs.size();j++){
+                    String jobName=jobs.get(j).getName();
+                    listJobsNames.add(jobs.get(j).getName());
+                   // listJobId.add(jobs.get(j).getId());
+                    listJobNameID.put(projectJob+jobName, jobs.get(j).getId());
+                }
+
+                //listJobs.put(listProjects.get(i), listJobsNames);
+
+                listJobs.put(listProjects.get(i),listJobsNames);
+            }
+
+            return "SUCCESS";
+        }
+
+        @Override
+        protected void onPostExecute(String dummy) {
+            prepareListData();
+            progressBar.setVisibility(View.GONE);
+            //System.out.println("inside postExecute" + listProjects.toString());
+            createView();
+        }
     }
 }

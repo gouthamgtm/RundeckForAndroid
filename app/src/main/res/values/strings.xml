@@ -11,5 +11,6 @@
     <string name="title_section3">Section 3</string>
     <string name="title_activity_my_activity3">MyActivity3</string>
     <string name="title_activity_executor">Executor</string>
+    <string name="execute">Execute</string>
 
 </resources>
