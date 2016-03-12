@@ -25,11 +25,11 @@ import java.util.List;
 
 public class Executor extends Activity {
 
-    ProgressBar progressBar;
-    TextView displayStatus;
-    //String message = "Android : ";
+    ProgressBar progressBar,progressBarHor;
+    TextView displayStatus,displayProjectName,displayJobName;
+    String result;
 
-    String jobID;
+    String jobID,projectName,jobName;
     List<RundeckJob> jobs;
 
     @Override
@@ -39,36 +39,53 @@ public class Executor extends Activity {
 
         Intent getIntent = getIntent();
         displayStatus = (TextView) findViewById(R.id.textView);
+        displayProjectName = (TextView) findViewById(R.id.textView2);
+        displayJobName = (TextView) findViewById(R.id.textView3);
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        //progressBarHor = (ProgressBar) findViewById(R.id.progressBar3);
         progressBar.setVisibility(View.GONE);
         jobID = getIntent.getStringExtra(ProjectView.JOB_KEY);
+        projectName = getIntent.getStringExtra(ProjectView.PROJECT_NAME);
+        jobName = getIntent.getStringExtra(ProjectView.JOB_NAME);
+
+        displayProjectName.setText(projectName);
+        displayJobName.setText(jobName);
     }
 
     public void executeJob(View view) throws IOException {
 
         progressBar.setVisibility(View.VISIBLE);
+        //progressBarHor.setVisibility(View.VISIBLE);
         new ExecuteJob().execute(jobID);
         Toast.makeText(getApplicationContext(),jobID, Toast.LENGTH_SHORT).show();
     }
 
-    class ExecuteJob extends AsyncTask<String, Integer, String> {
+    class ExecuteJob extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
 
             //System.out.println ("Param 0 : " + params[0]);
             //System.out.println ("Job id in Executor class 0 : " + jobID);
-
+            result="";
             RundeckExecution jobState = RunDeckClientUtil.getClient().runJob(jobID);
-            return jobState.getStatus().toString();
 
+            result = jobState.getStatus().toString();
+            publishProgress(result);
+            return result;
+        }
+
+        @Override
+        protected void onProgressUpdate (String... values){
+            //progressBarHor.setProgress(values[0]);
+            displayStatus.setText(values[0]);
         }
 
         @Override
         protected void onPostExecute(String result) {
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
 
-            if (result == "RUNNING"){
+           /* if (result == "RUNNING"){
                 displayStatus.setText(result);
             }
             else if (result == "SUCCEEDED"){
@@ -79,7 +96,7 @@ public class Executor extends Activity {
                 displayStatus.setText(result);
             }else{
                 displayStatus.setText(result);
-            }
+            }*/
 
             //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
             //System.out.println(result);

@@ -22,8 +22,11 @@ public class ProjectView extends Activity {
     List<String> listDataHeader,listProjects,listJobsNames,listJobId;
     HashMap<String, List<String>> listDataChild,listJobs;
     HashMap<String, String> listJobNameID;
-    //public final static String PROJECT_KEY = "com.example.goutham.PROJECT_KEY";
+
+    public final static String PROJECT_NAME = "com.example.goutham.PROJECT_NAME";
+    public final static String JOB_NAME = "com.example.goutham.JOB_NAME";
     public final static String JOB_KEY = "com.example.goutham.JOB_KEY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,8 +153,11 @@ public class ProjectView extends Activity {
                     System.out.println("Job Id value " + jobId);
                 }
                 Intent projectIntent = new Intent(getApplicationContext(), Executor.class);
-                //projectIntent.putExtra(PROJECT_KEY, projectName);
+
+                projectIntent.putExtra(PROJECT_NAME, projectName);
+                projectIntent.putExtra(JOB_NAME, jobName);
                 projectIntent.putExtra(JOB_KEY, jobId);
+
                 System.out.println("outside loop Job Id value " + jobId);
                 startActivity(projectIntent);
                 //System.out.println("On Click" + RunDeckClientUtil.getClient().getJobs(listProjects.get(groupPosition)).get(childPosition).getName().toString());
